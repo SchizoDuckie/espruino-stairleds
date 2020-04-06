@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>PCA9685 LED Port Configuration - StairLeds</title>
+
+    <link rel="stylesheet" href="css/fontawesome5.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/dark.css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
+            <div class="container-fluid d-flex flex-column p-0">
+                <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+                    <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-walking"></i></div>
+                    <div class="sidebar-brand-text mx-3"><span>StairLeds</span></div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="index.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a><a class="nav-link" href="about.html"><i class="fas fa-sliders-h"></i><span>Manual Control</span></a><a class="nav-link" href="about.html"><i class="fas fa-chess-knight"></i><span>Demo's</span></a></li>
+                    <li
+                        class="nav-item" role="presentation"></li>
+                        <li class="nav-item" role="presentation">
+                            <a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+                                <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-cogs"></i></div>
+                                <div class="sidebar-brand-text mx-3"><span>Settings</span></div>
+                            </a><a class="nav-link" href="wifi.html"><i class="fas fa-wifi"></i><span>Wifi&nbsp;</span></a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link active" href="pca9685.html"><i class="fas fa-microchip"></i><span>PCA9685 Pin mappings</span></a><a class="nav-link" href="pir.html"><i class="fas fa-wifi" style="transform: rotateZ(90deg);"></i><span>PIR Sensors</span></a>
+                            <a
+                                class="nav-link" href="leds.html"><i class="far fa-lightbulb"></i><span>LED Effects</span></a><a class="nav-link" href="ntp.html"><i class="far fa-clock"></i><span>NTP &amp; Off Times</span></a><a class="nav-link" href="mqtt.html"><i class="fas fa-microchip"></i><span>MQTT</span></a></li>
+                        <li
+                            class="nav-item" role="presentation"></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link" href="about.html"><i class="fas fa-info-circle"></i><span>About</span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper" style="background-color: #212121;">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-dark shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <form class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <div class="input-group">
+                                <div class="input-group-append"></div>
+                            </div>
+                        </form>
+                        <ul class="nav navbar-nav flex-nowrap ml-auto">
+                            <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#"><i class="fas fa-search"></i></a>
+                                <div class="dropdown-menu dropdown-menu-right p-3 animated--grow-in" role="menu" aria-labelledby="searchDropdown">
+                                    <form class="form-inline mr-auto navbar-search w-100">
+                                        <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for ...">
+                                            <div class="input-group-append"><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown no-arrow mx-1" role="presentation"></li>
+                            <li class="nav-item dropdown no-arrow mx-1" role="presentation">
+                                <div class="shadow dropdown-list dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown"></div>
+                            </li>
+                            <div class="d-none d-sm-block topbar-divider"></div>
+                            <li class="nav-item dropdown no-arrow" role="presentation">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#">Current time: 19:56</a>
+                                    <div class="dropdown-menu shadow dropdown-menu-right animated--grow-in" role="menu"><a class="dropdown-item" role="presentation" href="#"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Profile</a><a class="dropdown-item" role="presentation" href="#"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Settings</a>
+                                        <a
+                                            class="dropdown-item" role="presentation" href="#"><i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Activity log</a>
+                                            <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="#"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Logout</a></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <h3 class="text-dark mb-4"><i class="fa fa-microchip"></i>&nbsp;PCA9685 Pin Mappings</h3>
+                    <div class="row">
+                        <div class="col">
+                            <p>Configure the port mappings for your stair leds here. You can verify which led is connected to which step by using the test sliders<br>
+                                
+                           </p>
+                        </div>
+                    </div>
+                    <section></section>
+                    <div class="row">
+                        <div class="col-6">
+                            <!-- PCA9685 1 -->
+                            <div class="card shadow pca9685" id="pca9685_1">
+                                <div class="card-header py-3">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h3 class="text-primary"><i class="fa fa-microchip"></i>&nbsp;PCA9685 #1</h3>
+                                            <p class="text-primary m-0 font-weight-bold"></p>
+                                        </div>
+                                        <div class="col"><label class="col-form-label text-nowrap text-right float-right">I²C address:&nbsp;<select name="i2c_1" class="i2caddress form-control form-control-sm custom-select custom-select-sm" style="width: 80px;"><option value="0x40" selected>0x40</option><option value="0x41">0x41</option></select>&nbsp;</label></div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                                        <table class="table table-sm dataTable my-0" id="dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th><label for="allinputs1" style="margin:0"> <input type="checkbox" class="allinputs" id='allinputs1'> Use</label></th>
+                                                    <th>Port #</th>
+                                                    <th>Step #</th>
+                                                    <th>Test <label for="linksliders" style="float:right; margin:0"> <input type="checkbox" class="linksliders" id='linksliders'> Link all sliders</label><br></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="table-active">
+                                                    <td><input type="checkbox" checked></td>
+                                                    <td>1</td>
+                                                    <td><input class="bg-dark border rounded border-primary form-control-sm" type="number" name="pca96851_num_1" style="color: #b1b1b1;width: 60px;" value="9"><br></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_1" data-number="1"><br></td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td><input type="checkbox" checked></td>
+                                                    <td>2</td>
+                                                    <td><input class="bg-dark border rounded border-primary form-control-sm" type="number" name="pca96851_num_2" style="color: #b1b1b1;width: 60px;" value="8"><br></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_2" data-number="2"><br></td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td><input type="checkbox" checked></td>
+                                                    <td>3</td>
+                                                    <td><input class="bg-dark border rounded border-primary form-control-sm" type="number" name="pca96851_num_3" style="color: #b1b1b1;width: 60px;" value="7"><br></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_3" data-number="3"><br></td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td><input type="checkbox" checked></td>
+                                                    <td>4</td>
+                                                    <td><input class="bg-dark border rounded border-primary form-control-sm" type="number" name="pca96851_num_4" style="color: #b1b1b1;width: 60px;" value="6"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_4" data-number="4"></td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td><input type="checkbox" checked></td>
+                                                    <td>5</td>
+                                                    <td><input class="bg-dark border rounded border-primary form-control-sm" type="number" name="pca96851_num_5" style="color: #b1b1b1;width: 60px;" value="5"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_5" data-number="5"></td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td><input type="checkbox" checked></td>
+                                                    <td>6</td>
+                                                    <td><input class="bg-dark border rounded border-primary form-control-sm" type="number" name="pca96851_num_6" style="color: #b1b1b1;width: 60px;" value="4"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_6" data-number="6"></td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td><input type="checkbox" checked></td>
+                                                    <td>7</td>
+                                                    <td><input class="bg-dark border rounded border-primary form-control-sm" type="number" name="pca96851_num_7" style="color: #b1b1b1;width: 60px;" value="3"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_7" data-number="7"></td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td><input type="checkbox" checked></td>
+                                                    <td>8</td>
+                                                    <td><input class="bg-dark border rounded border-primary form-control-sm" type="number" name="pca96851_num_8" style="color: #b1b1b1;width: 60px;" value="2"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_8" data-number="8"></td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td><input type="checkbox" checked></td>
+                                                    <td>9</td>
+                                                    <td><input class="bg-dark border rounded border-primary form-control-sm" type="number" name="pca96851_num_9" style="color: #b1b1b1;width: 60px;" value="1"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_9" data-number="9"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="checkbox"></td>
+                                                    <td>10</td>
+                                                    <td><input class="bg-dark border rounded border-dark form-control-sm" type="number" name="pca96851_num_10" style="color: #b1b1b1;width: 60px;"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_10" data-number="10" disabled></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="checkbox"></td>
+                                                    <td>11</td>
+                                                    <td><input class="bg-dark border rounded border-dark form-control-sm" type="number" name="pca96851_num_11" style="color: #b1b1b1;width: 60px;"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_11" data-number="11" disabled></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="checkbox"></td>
+                                                    <td>12</td>
+                                                    <td><input class="bg-dark border rounded border-dark form-control-sm" type="number" name="pca96851_num_12" style="color: #b1b1b1;width: 60px;" value="0"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_12" data-number="12" disabled></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="checkbox"></td>
+                                                    <td>13</td>
+                                                    <td><input class="bg-dark border rounded border-dark form-control-sm" type="number" name="pca96851_num_13" style="color: #b1b1b1;width: 60px;"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_13" data-number="13" disabled></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="checkbox"></td>
+                                                    <td>14</td>
+                                                    <td><input class="bg-dark border rounded border-dark form-control-sm" type="number" name="pca96851_num_14" style="color: #b1b1b1;width: 60px;"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_14" data-number="14" disabled></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="checkbox"></td>
+                                                    <td>15</td>
+                                                    <td><input class="bg-dark border rounded border-dark form-control-sm" type="number" name="pca96851_num_15" style="color: #b1b1b1;width: 60px;"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_15" data-number="15" disabled></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td><input type="checkbox"></td>
+                                                    <td>16</td>
+                                                    <td><input class="bg-dark border rounded border-dark form-control-sm" type="number" name="pca96851_num_16" style="color: #b1b1b1;width: 60px;"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_16" data-number="16" disabled></td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr></tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <!-- PCA9685 2 -->
+                            <div class="card pca9685" id="pca9685_2">
+                                <div class="card-header py-3">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h3 class="text-primary"><i class="fa fa-microchip"></i>&nbsp;PCA9685 #2</h3>
+                                            <p class="text-primary m-0 font-weight-bold"></p>
+                                        </div>
+                                        <div class="col"><label class="col-form-label text-nowrap text-right float-right">I²C address:&nbsp;<select name="i2c_2" class="i2caddress form-control form-control-sm custom-select custom-select-sm" style="width: 80px;"><option value="0x40">0x40</option><option value="0x41" selected>0x41</option></select>&nbsp;</label></div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                                        <table class="table table-sm dataTable my-0" id="dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th><label for="allinputs2" style="margin:0"> <input type="checkbox" class="allinputs" id='allinputs2'> Use</label></th>
+                                                    <th>Port #</th>
+                                                    <th>Step #</th>
+                                                    <th>Test</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="checkbox"></td>
+                                                    <td>1</td>
+                                                    <td><input class="bg-dark border rounded border-dark form-control-sm" type="number" name="pca96852_num_1" style="color: #b1b1b1;width: 60px;" value=""><br></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_1" data-number="1" disabled></td>
+                                                </tr>
+                                                <tr >
+                                                    <td><input type="checkbox"></td>
+                                                    <td>2</td>
+                                                    <td><input class="bg-dark border rounded border-dark form-control-sm" type="number" name="pca96852_num_2" style="color: #b1b1b1;width: 60px;" value=""><br></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_2" data-number="2" disabled></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="checkbox"></td>
+                                                    <td>3</td>
+                                                    <td><input class="bg-dark border rounded border-dark form-control-sm" type="number" name="pca96852_num_3" style="color: #b1b1b1;width: 60px;" value=""><br></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_3" data-number="3" disabled></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="checkbox"></td>
+                                                    <td>4</td>
+                                                    <td><input class="bg-dark border rounded border-darkform-control-sm" type="number" name="pca96852_num_4" style="color: #b1b1b1;width: 60px;" value=""></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_4" data-number="4" disabled></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="checkbox"></td>
+                                                    <td>5</td>
+                                                    <td><input class="bg-dark border rounded border-dark form-control-sm" type="number" name="pca96852_num_5" style="color: #b1b1b1;width: 60px;" value=""></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_5" data-number="5" disabled></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="checkbox"></td>
+                                                    <td>6</td>
+                                                    <td><input class="bg-dark border rounded border-dark form-control-sm" type="number" name="pca96852_num_6" style="color: #b1b1b1;width: 60px;" value=""></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_6" data-number="6" disabled></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="checkbox"></td>
+                                                    <td>7</td>
+                                                    <td><input class="bg-dark border rounded border-dark form-control-sm" type="number" name="pca96852_num_7" style="color: #b1b1b1;width: 60px;" value=""></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_7" data-number="7" disabled></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="checkbox"></td>
+                                                    <td>8</td>
+                                                    <td><input class="bg-dark border rounded border-dark form-control-sm" type="number" name="pca96852_num_8" style="color: #b1b1b1;width: 60px;" value=""></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_8" data-number="8" disabled></td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td><input type="checkbox" checked></td>
+                                                    <td>9</td>
+                                                    <td><input class="bg-dark border rounded border-primary shadow-sm form-control-sm" type="number" name="pca96852_num_9" style="color: #b1b1b1;width: 60px;" value="10"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_9" data-number="9"></td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td><input type="checkbox" checked></td>
+                                                    <td>10</td>
+                                                    <td><input class="bg-dark border rounded border-primary form-control-sm" type="number" name="pca96852_num_10" style="color: #b1b1b1;width: 60px;" value="11"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_10" data-number="10"></td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td><input type="checkbox" checked></td>
+                                                    <td>11</td>
+                                                    <td><input class="bg-dark border rounded border-primary  form-control-sm" type="number" name="pca96852_num_11" style="color: #b1b1b1;width: 60px;" value="12"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_11" data-number="11"></td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td><input type="checkbox" checked></td>
+                                                    <td>12</td>
+                                                    <td><input class="bg-dark border rounded border-primary form-control-sm" type="number" name="pca96852_num_12" style="color: #b1b1b1;width: 60px;" value="13"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_12" data-number="12"></td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td><input type="checkbox" checked></td>
+                                                    <td>13</td>
+                                                    <td><input class="bg-dark border rounded border-primary form-control-sm" type="number" name="pca96852_num_13" style="color: #b1b1b1;width: 60px;" value="14"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_13" data-number="13"></td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td><input type="checkbox" checked></td>
+                                                    <td>14</td>
+                                                    <td><input class="bg-dark border rounded border-primary form-control-sm" type="number" name="pca96852_num_14" style="color: #b1b1b1;width: 60px;" value="15"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_14" data-number="14"></td>
+                                                </tr>
+                                                <tr class="table-active">
+                                                    <td><input type="checkbox" checked></td>
+                                                    <td>15</td>
+                                                    <td><input class="bg-dark border rounded border-primary form-control-sm" type="number" name="pca96852_num_15" style="color: #b1b1b1;width: 60px;" value="16"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_15" data-number="15"></td>
+                                                </tr>
+
+                                                <tr class="table-active">
+                                                    <td><input type="checkbox" checked></td>
+                                                    <td>16</td>
+                                                    <td><input class="bg-dark border rounded border-primary form-control-sm" type="number" name="pca96852_num_16" style="color: #b1b1b1;width: 60px;" value="17"></td>
+                                                    <td><input class="custom-range" type="range" min="0" max="4095" name="pca96852_val_16" data-number="16"></td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr></tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer" style="background-color: transparent !important;">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © SchizoDuckie 2020</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a></div>
+     <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bs-init.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/mustache.min.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        console.log("init");
+        console.log($(".pca9685"));
+        let socket = new WebSocket("ws://"+location.host+"/socket");
+        let slidersLinked = false;
+
+        socket.onopen = function(e) {
+          socket.send("blerf");
+        };
+
+        $(".linksliders").on("change", function() {
+            slidersLinked = this.checked ;
+        })
+
+        $(".allinputs").on("change", function() {
+            let on = this.checked;
+            let targets = $(this).closest(".card").find(on ? "input[type=checkbox]:not(:checked)" : "input[type=checkbox]:checked");
+            targets.click();
+        });
+
+        window.allSliders = $("input[type=range]");
+
+         $(".pca9685").on("input", "input[type=range]",  $.debounce( 100, function(e) {
+            let brightness = $(this).val();    
+            if (slidersLinked) {
+                allSliders.val(brightness);
+                $(".pca9685").map(function(idx,el) {
+                    let ports = [];
+                    let i2c  = $(el).find(".i2caddress").val();
+                    $(el).find(".table-active input[type=range]")
+                         .map(function(idx, el) {
+                            ports.push($(el).data("number"));
+                         });
+                    socket.send(i2c+"|"+ports.join(",")+"|"+brightness);
+                })
+                
+            } else { 
+                let parent =  $(this).closest(".pca9685");
+                let i2c  = $(parent).find(".i2caddress").val();
+                let port = $(this).data("number");
+                socket.send(i2c+"|"+port+"|"+brightness);
+            }
+            
+        }));
+
+         
+    });
+
+    function rowChecked(e) {
+        let active = $(e.target)[0].checked;
+        let row = $(e.target).closest("tr");
+        row.toggleClass("table-active", active);
+       
+        if(!active) {
+            row.find("input[type=number]").removeClass("border-primary");
+            row.find("input[type=number]").addClass("border-dark");
+            row.find("input:not([type=checkbox])").attr("disabled", "disabled");
+        } else {
+            row.find("input[type=number]").addClass("border-primary");
+            row.find("input[type=number]").removeClass("border-dark");
+            row.find("input:not([type=checkbox])").removeAttr("disabled");
+        }
+    }
+
+    $(".pca9685").on("change", "input[type=checkbox]", rowChecked)
+
+          
+
+    </script>
+</body>
+
+</html>
